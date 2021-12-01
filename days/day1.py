@@ -33,3 +33,7 @@ class Day1(Day):
             if group1 < group2:
                 counter += 1
         return counter
+
+
+if __name__ == '__main__':
+    (Day1()).run()

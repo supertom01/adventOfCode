@@ -1,5 +1,7 @@
+from os.path import dirname
+
 def parse_input_str(week_nr: int) -> list[str]:
-    file_name = f"inputs/input_{week_nr}.txt"
+    file_name = f"{dirname(__file__)}/inputs/input_{week_nr}.txt"
     file = open(file_name, 'r')
 
     try:
