@@ -1,18 +1,17 @@
-import parsers
+import requests
+from os.path import dirname
 
 
 class Day:
 
     def __init__(self, day_nr: int, description: str, input_type="int"):
+        self.day_nr = day_nr
         self.description = description
+        self.input = self._get_input()
         if input_type == "int":
-            self.input = parsers.parse_input_int(day_nr)
+            self.input = list(map(int, self.input))
         elif input_type == "float":
-            self.input = parsers.parse_input_float(day_nr)
-        elif input_type == "str":
-            self.input = parsers.parse_input_str(day_nr)
-        else:
-            raise RuntimeError(f"Invalid input type given: {input_type}")
+            self.input = list(map(float, self.input))
 
     def part_a(self):
         """
@@ -34,3 +33,19 @@ class Day:
 
     def __str__(self):
         return self.description
+
+    def _get_input(self):
+        """
+        Grabs the input from the AoC website.
+        :return: A list with values
+        """
+        cookie_file = open(f'{dirname(dirname(__file__))}/cookie.txt', 'r')
+        try:
+            session_key = cookie_file.read()
+        finally:
+            cookie_file.close()
+
+        url = f"https://adventofcode.com/2021/day/{self.day_nr}/input"
+        request = requests.get(url, cookies={'session': session_key})
+        request.close()
+        return request.text.splitlines()
