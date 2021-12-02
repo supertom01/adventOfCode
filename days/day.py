@@ -3,7 +3,8 @@ import parsers
 
 class Day:
 
-    def __init__(self, day_nr: int, input_type="int"):
+    def __init__(self, day_nr: int, description: str, input_type="int"):
+        self.description = description
         if input_type == "int":
             self.input = parsers.parse_input_int(day_nr)
         elif input_type == "float":
@@ -30,3 +31,6 @@ class Day:
     def run(self):
         print(f'\tPart A: {self.part_a()}')
         print(f'\tPart B: {self.part_b()}')
+
+    def __str__(self):
+        return self.description

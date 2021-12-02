@@ -4,7 +4,7 @@ from days.day import Day
 class Day1(Day):
 
     def __init__(self):
-        super().__init__(1)
+        super().__init__(1, "Sonar Sweep")
 
     def part_a(self):
         """
