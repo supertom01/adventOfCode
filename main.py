@@ -11,6 +11,6 @@ if __name__ == '__main__':
     # Run all the run methods of the days
     for c in Day.__subclasses__():
         obj = c()
-        print(f'{c.__name__} "{obj}":')
+        print(f'{obj}:')
         obj.run()
         print()
