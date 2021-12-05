@@ -1,14 +1,12 @@
+import time
+
 from days.day import Day
 import numpy as np
 
 
 def get_score(board, last_number: int):
-    sum = 0
-    for row in board:
-        for item in row:
-            if not item[1]:
-                sum += item[0]
-    return sum * last_number
+    s = sum(sum(item[0] for item in row if not item[1]) for row in board)
+    return s * last_number
 
 
 class Day4(Day):
@@ -31,22 +29,13 @@ class Day4(Day):
         return boards
 
     def mark_boards(self, nr: int):
-        for board in self.boards:
-            marked = False
-            i = 0
-            while not marked and i < len(board):
-                for item in board[i]:
-                    if item[0] == nr:
-                        item[1] = True
-                        marked = True
-                        break
-                i += 1
+        self.boards = [[[[n, b or n == nr] for [n, b] in row] for row in board] for board in self.boards]
 
     def get_bingo(self):
         for board in self.boards:
             b = np.array(board)
             for row, col in zip(b, b.transpose((1, 0, 2))):
-                if sum(int(item[1]) for item in row) == len(row) or sum(int(item[1]) for item in col) == len(col):
+                if all([x[1] for x in row]) or all([x[1] for x in col]):
                     return board
         return None
 
@@ -55,7 +44,7 @@ class Day4(Day):
         for board in self.boards:
             b = np.array(board)
             for row, col in zip(b, b.transpose((1, 0, 2))):
-                if sum(int(item[1]) for item in row) == len(row) or sum(int(item[1]) for item in col) == len(col):
+                if all([x[1] for x in row]) or all([x[1] for x in col]):
                     bingos.append(board)
                     break
         return bingos
