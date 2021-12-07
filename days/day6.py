@@ -8,12 +8,9 @@ class Day6(Day):
         self.input = [int(v) for v in self.input[0].split(",")]
 
     def calc_fish(self, nr_days: int):
-        # Prepare dictionary
-        fish = {}
-        for i in range(9):
-            fish[i] = 0
+        fish = [0 for _ in range(9)]
 
-        # Fill dictionary with initial fish
+        # Fill list with initial fish
         for f in self.input:
             fish[f] += 1
 
@@ -27,7 +24,7 @@ class Day6(Day):
             fish[8] = new
 
         # Return the total number of fish
-        return sum(fish.values())
+        return sum(fish)
 
     def part_a(self):
         return self.calc_fish(80)

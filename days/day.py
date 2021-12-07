@@ -58,6 +58,8 @@ class Day:
         """
         Executes each part of the day and measures the time it takes to execute it.
         """
+        print(self)
+
         before = time.time()
         answer_a = self.part_a()
         after = time.time()
@@ -67,6 +69,7 @@ class Day:
         answer_b = self.part_b()
         after = time.time()
         print(f'\tPart B: {answer_b} (computation time: {(after - before) * 1000:.5f} ms)')
+        print()
 
     def __str__(self):
         return f"Day {self.day_nr} \"{self.description}\""
