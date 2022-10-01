@@ -1,6 +1,6 @@
 import time
 
-from days.day import Day
+from day_base import Day
 import numpy as np
 
 

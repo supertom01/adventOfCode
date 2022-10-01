@@ -1,6 +1,6 @@
 import math
 
-from days.day import Day
+from day_base import Day
 
 
 class Day10(Day):

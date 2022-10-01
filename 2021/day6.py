@@ -1,4 +1,4 @@
-from days.day import Day
+from day_base import Day
 
 
 class Day6(Day):

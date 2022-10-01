@@ -90,7 +90,7 @@ class Day:
         Grabs the input from the AoC website.
         :return: A list with values
         """
-        cookie_file = open(f'{dirname(dirname(__file__))}/cookie.txt', 'r')
+        cookie_file = open(f'{dirname(__file__)}/cookie.txt', 'r')
         try:
             session_key = cookie_file.read()
         finally:
