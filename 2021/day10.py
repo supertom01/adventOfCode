@@ -6,7 +6,7 @@ from day_base import Day
 class Day10(Day):
 
     def __init__(self):
-        super().__init__(10, "Syntax Scoring")
+        super().__init__(2021, 10, "Syntax Scoring")
         self.closing_open = {
             ')': '(',
             ']': '[',

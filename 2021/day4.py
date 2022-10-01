@@ -12,7 +12,7 @@ def get_score(board, last_number: int):
 class Day4(Day):
 
     def __init__(self):
-        super().__init__(4, "Giant Squid", input_type="str")
+        super().__init__(2021, 4, "Giant Squid", input_type="str")
         self.drawn_numbers = list(map(int, self.input[0].split(",")))
         self.boards = None
 

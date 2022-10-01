@@ -4,7 +4,7 @@ from day_base import Day
 class Day6(Day):
 
     def __init__(self):
-        super().__init__(6, "Lantern fish")
+        super().__init__(2021, 6, "Lantern fish")
         self.input = [int(v) for v in self.input[0].split(",")]
 
     def calc_fish(self, nr_days: int):

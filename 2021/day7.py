@@ -4,7 +4,7 @@ from day_base import Day
 class Day7(Day):
 
     def __init__(self):
-        super().__init__(7, "The Treachery of Whales")
+        super().__init__(2021, 7, "The Treachery of Whales")
         self.input = [int(x) for x in self.input[0].split(",")]
 
     def part_a(self):

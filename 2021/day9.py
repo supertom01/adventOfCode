@@ -5,7 +5,7 @@ import numpy as np
 class Day9(Day):
 
     def __init__(self):
-        super().__init__(9, "Smoke Basin")
+        super().__init__(2021, 9, "Smoke Basin")
         self.matrix = [[(9, 0) for _ in range(len(self.input[0]) + 2)]] + \
                       [[(9, 0)] + [(int(i), -1) for i in line] + [(9, 0)] for line in self.input] + \
                       [[(9, 0) for _ in range(len(self.input[0]) + 2)]]
