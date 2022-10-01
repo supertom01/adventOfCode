@@ -4,7 +4,7 @@ from day_base import Day
 class Day8(Day):
 
     def __init__(self):
-        super().__init__(8, "Seven Segment Search", debug=True)
+        super().__init__(2021, 8, "Seven Segment Search", debug=True)
 
         # Mapping #segments -> #
         self.unique_segment_count = {

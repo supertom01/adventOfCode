@@ -14,24 +14,26 @@ Date: 03-12-2021
 
 class Day:
 
-    def __init__(self, day_nr: int, description: str, **kwargs):
+    def __init__(self, year, day_nr: int, description: str, **kwargs):
         """
         Creates a new day object.
         This object automatically fetches the input from the AoC website if needed, or reads the test input from a file.
         It provides abstractions like a run method in order to minimize the code that has to be written for each day.
+        :param year: The year of the current AoC
         :param day_nr: The number of the day of the calendar (starting at 1)
         :param description: The description of today's puzzle
         :param kwargs: Optional arguments, like debug and input_type
                         debug => If True, reads test input instead of actual input, by default False
                         input_type => Determines how the input should be parsed, by default int
         """
+        self.year = year
         self.day_nr = day_nr
         self.description = description
         if "debug" in kwargs.keys() and kwargs.get("debug"):
             self.input = self._get_test()
         else:
             self.input = self._get_input()
-        if "input_type" in kwargs.values():
+        if "input_type" in kwargs.keys():
             if kwargs.get("input_type") == "int":
                 self.input = list(map(int, self.input))
             elif kwargs.get("input_type") == "float":
@@ -79,7 +81,7 @@ class Day:
         Grabs the test input from a text file.
         :return: A list with values
         """
-        test_file = open(f'{dirname(dirname(__file__))}/test/{self.day_nr}.txt', 'r')
+        test_file = open(f'{dirname(__file__)}/test/{self.year}/{self.day_nr}.txt', 'r')
         try:
             return [line.replace("\r\n", "").replace("\n", "") for line in test_file.readlines()]
         finally:
@@ -96,7 +98,7 @@ class Day:
         finally:
             cookie_file.close()
 
-        url = f"https://adventofcode.com/2021/day/{self.day_nr}/input"
+        url = f"https://adventofcode.com/{self.year}/day/{self.day_nr}/input"
         request = requests.get(url, cookies={'session': session_key})
         request.close()
         return request.text.splitlines()

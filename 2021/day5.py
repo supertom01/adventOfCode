@@ -26,7 +26,7 @@ def fill_field(field, coordinates, use_diagonal):
 class Day5(Day):
 
     def __init__(self):
-        super().__init__(5, "Hydrothermal Venture", input_type="str")
+        super().__init__(2021, 5, "Hydrothermal Venture", input_type="str")
         self.coordinates = [[[int(x) for x in p.split(",")] for p in line.split(" -> ")] for line in self.input]
 
     def add_meta_data(self):

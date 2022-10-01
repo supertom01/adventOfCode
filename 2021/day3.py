@@ -4,7 +4,7 @@ from day_base import Day
 class Day3(Day):
 
     def __init__(self):
-        super().__init__(3, "Binary Diagnostic", input_type="str")
+        super().__init__(2021, 3, "Binary Diagnostic", input_type="str")
 
     def part_a(self):
         """
