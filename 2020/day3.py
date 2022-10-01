@@ -53,6 +53,8 @@ class Day3(Day):
                 if line[curr_pos[i]] == '#':
                     tree_count[i] += 1
                 curr_pos[i] = (curr_pos[i] + step_sizes[i]) % i_max
+
+            # Hacky stuff for skipping each other line...
             if not count:
                 count = True
             else:
