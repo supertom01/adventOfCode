@@ -29,7 +29,8 @@ class Day:
         self.year = year
         self.day_nr = day_nr
         self.description = description
-        if "debug" in kwargs.keys() and kwargs.get("debug"):
+        self.debug = "debug" in kwargs.keys() and kwargs.get("debug")
+        if self.debug:
             self.input = self._get_test()
         else:
             self.input = self._get_input()
@@ -38,23 +39,24 @@ class Day:
                 self.input = list(map(int, self.input))
             elif kwargs.get("input_type") == "float":
                 self.input = list(map(float, self.input))
+            elif kwargs.get("input_type") == "str":
+                pass
             else:
-                raise RuntimeWarning(
-                    f"Warning! Invalid input type provided: {kwargs.get('input_type')}. Defaulting to string.")
+                print(f"Warning! Invalid input type provided: {kwargs.get('input_type')}. Defaulting to string.")
 
     def part_a(self):
         """
         Calculates the solution for the first part of the days puzzle
         :return: The solution
         """
-        return -1
+        raise NotImplementedError("Please implement the first part of the puzzle")
 
     def part_b(self):
         """
         Calculates the solution for the second part of the days puzzle
         :return: The solution
         """
-        return -1
+        raise NotImplementedError("Please implement the second part of the puzzle")
 
     def run(self):
         """
@@ -62,15 +64,21 @@ class Day:
         """
         print(self)
 
-        before = time.time()
-        answer_a = self.part_a()
-        after = time.time()
-        print(f'\tPart A: {answer_a} (computation time: {(after - before) * 1000:.5f} ms)')
+        try:
+            before = time.time()
+            answer_a = self.part_a()
+            after = time.time()
+            print(f'\tPart A: {answer_a} (computation time: {(after - before) * 1000:.5f} ms)')
+        except NotImplementedError:
+            print("Part A has not yet been implemented")
 
-        before = time.time()
-        answer_b = self.part_b()
-        after = time.time()
-        print(f'\tPart B: {answer_b} (computation time: {(after - before) * 1000:.5f} ms)')
+        try:
+            before = time.time()
+            answer_b = self.part_b()
+            after = time.time()
+            print(f'\tPart B: {answer_b} (computation time: {(after - before) * 1000:.5f} ms)')
+        except NotImplementedError:
+            print("Part B has not yet been implemented")
         print()
 
     def __str__(self):

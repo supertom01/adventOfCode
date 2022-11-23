@@ -12,4 +12,8 @@ if __name__ == '__main__':
 
     # Run all the run methods of the days
     for c in Day.__subclasses__():
-        c().run()
+        try:
+            c().run()
+        except Exception as e:
+            print(f"Warning exception occurred for {c.__name__}: {e}")
+            print()
