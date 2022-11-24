@@ -14,7 +14,7 @@ Date: 03-12-2021
 
 class Day:
 
-    def __init__(self, year, day_nr: int, description: str, **kwargs):
+    def __init__(self, year, day_nr: int, description: str, expected_a=None, expected_b=None, **kwargs):
         """
         Creates a new day object.
         This object automatically fetches the input from the AoC website if needed, or reads the test input from a file.
@@ -30,6 +30,8 @@ class Day:
         self.day_nr = day_nr
         self.description = description
         self.debug = "debug" in kwargs.keys() and kwargs.get("debug")
+        self.expected_a = expected_a
+        self.expected_b = expected_b
         if self.debug:
             self.input = self._get_test()
         else:
@@ -64,13 +66,15 @@ class Day:
         """
         print(self)
 
+        answer_a = None
+        answer_b = None
         try:
             before = time.time()
             answer_a = self.part_a()
             after = time.time()
             print(f'\tPart A: {answer_a} (computation time: {(after - before) * 1000:.5f} ms)')
         except NotImplementedError:
-            print("Part A has not yet been implemented")
+            print("\tPart A has not yet been implemented")
 
         try:
             before = time.time()
@@ -78,8 +82,24 @@ class Day:
             after = time.time()
             print(f'\tPart B: {answer_b} (computation time: {(after - before) * 1000:.5f} ms)')
         except NotImplementedError:
-            print("Part B has not yet been implemented")
+            print("\tPart B has not yet been implemented")
         print()
+
+        # If we're in debug mode, check if the answers are as expected
+        if self.debug:
+            self.test(answer_a, answer_b)
+
+    def test(self, answer_a, answer_b):
+        """
+        Compares the actual answers with expected answers as provided in the constructor
+        :param answer_a: The answer as calculated by this day for part a
+        :param answer_b: The answer as calculated by this day for part b
+        """
+        if self.expected_a is not None and answer_a is not None:
+            assert self.expected_a == answer_a, f"Day {self.day_nr} Part A: Expected {self.expected_a} but got {answer_a}"
+        if self.expected_b is not None and answer_b is not None:
+            assert self.expected_b == answer_b, f"Day {self.day_nr} Part B: Expected {self.expected_b} but got {answer_b}"
+        print("Test passed")
 
     def __str__(self):
         return f"Day {self.day_nr} \"{self.description}\""
