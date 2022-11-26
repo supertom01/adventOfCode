@@ -30,7 +30,7 @@ class Bag:
     def get_content_count(self):
         total = 1
         for amount, bag in self.children:
-            total += amount * bag.get_content_bag_count()
+            total += amount * bag.get_content_count()
         return total
 
     def __str__(self):
