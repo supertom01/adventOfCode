@@ -1,66 +1,104 @@
-import re
-
 from day_base import Day
 
 
-class Bag(object):
+class Bag:
+    """
+    A bag that may contain other bags.
 
-    def __init__(self, name):
-        self.name = name
-        self.children = {}
+    A bag always has a name.
+    Additionally, it may have bags inside it, called children.
+    """
 
-    def add_child(self, bag, amount: int):
-        self.children[bag.name] = {'bag': bag, 'amount': amount}
+    def __init__(self, value):
+        self.value = value
+        self.children = []
+
+    def get_name(self):
+        return self.value
+
+    def add_child(self, amount: int, value):
+        self.children.append((amount, value))
 
     def contains_bag(self, bag_name):
-        if bag_name in self.children.keys():
+        if self.value == bag_name:
             return True
-        for child in self.children.values():
-            if child['bag'].contains_bag(bag_name):
+        for _, bag in self.children:
+            if bag.contains_bag(bag_name):
                 return True
         return False
 
-def parse_bag(bag):
-    bag_name, other = bag.split(" bags contain ")
-    other = other.replace(" bags", "").replace("bag.", "")
-    bags = {}
-    for inner_bag in other.split("bag, "):
-        if inner_bag == "no other.":
-            continue
-        number, inner_bag_name = re.split("([0-9]+) ([a-z ]+)", inner_bag)[1:3]
-        inner_bag_name = inner_bag_name[:-1] if inner_bag_name[-1] == " " else inner_bag_name
-        bags[inner_bag_name] = int(number)
-    return bag_name, bags
+    def get_content_count(self):
+        total = 1
+        for amount, bag in self.children:
+            total += amount * bag.get_content_bag_count()
+        return total
+
+    def __str__(self):
+        str_representation = self.value
+        for amount, bag in self.children:
+            str_representation += f" {amount}X {bag.get_name()}"
+        return str_representation
 
 
 class Day7(Day):
 
     def __init__(self):
-        super(Day7, self).__init__(2020, 7, "Handy Haversacks")
+        super(Day7, self).__init__(2020, 7, "Handy Haversacks", expected_a=4, expected_b=32)
+        self.bags = {}
+        self.nodes = {}
 
-    def create_bag_structure(self):
-        bags = {}
+    def parse_input(self):
+        """
+        Generates a dictionary where each key is a unique key and the values are the bags inside it.
+        """
         for line in self.input:
-            bag_name, inner_bags = parse_bag(line)
-            if bag_name not in bags.keys():
-                bags[bag_name] = Bag(bag_name)
+            bag_name, contents = line.split(" bags contain ")
+            self.bags[bag_name] = []
 
-            for bag, number in inner_bags.items():
-                if bag not in bags.keys():
-                    bags[bag] = Bag(bag)
-                bags[bag_name].add_child(bags[bag], number)
-        return bags
+            if "no other" in contents:
+                continue
+            contents = contents.replace(".", "").replace(" bags", "").replace(" bag", "")
+            for bag in contents.split(", "):
+                amount, pattern, color = bag.split(" ")
+                self.bags[bag_name].append((int(amount), f"{pattern} {color}"))
+        return self.bags
+
+    def construct_tree(self):
+        """
+        Creates a tree where the nodes are dynamically being connected.
+
+        First each bag gets its own empty node. Then they are being linked together, forming a tree.
+        """
+        self.parse_input()
+
+        # Create empty nodes
+        for bag_name in self.bags.keys():
+            self.nodes[bag_name] = Bag(bag_name)
+
+        # Connect the nodes together, but also storing the amount of bags at the same time
+        for bag_name, contents in self.bags.items():
+            for (amount, bag) in contents:
+                self.nodes[bag_name].add_child(amount, self.nodes[bag])
 
     def part_a(self):
-        bag_name = "shiny gold"
-        nr_bags = 0
-        for bag, bag_obj in self.create_bag_structure().items():
-            if bag_obj.contains_bag(bag_name):
-                nr_bags += 1
-        return nr_bags
+        """
+        Determines the amount of bags that may contain a shiny gold bag.
+        :return:
+        """
+        self.construct_tree()
+
+        # Subtract one, since this method will include the shiny bag itself...
+        return sum(1 for bag in self.bags if self.nodes[bag].contains_bag("shiny gold")) - 1
 
     def part_b(self):
-        pass
+        """
+        Determines the amount of bags that would be located within a shiny gold bag.
+        :return:
+        """
+        self.construct_tree()
+
+        # Subtract one, since this method will include the shiny bag itself...
+        return self.nodes["shiny gold"].get_content_count() - 1
 
 
 if __name__ == '__main__':
