@@ -3,7 +3,7 @@ import pkgutil
 
 from day_base import Day
 
-YEAR = 2020
+YEAR = 2022
 
 if __name__ == '__main__':
     # Import all the days in the days package
