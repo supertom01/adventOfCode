@@ -4,7 +4,7 @@ from day_base import Day
 class Day1(Day):
 
     def __init__(self):
-        super(Day1, self).__init__(2022, 1, "Calorie Counting", input_type="str", expected_a=24000, expected_b=45000, debug=True)
+        super(Day1, self).__init__(2022, 1, "Calorie Counting", input_type="str", expected_a=24000, expected_b=45000, debug=False)
 
     def parse_input(self):
         """
