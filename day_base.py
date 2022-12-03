@@ -144,9 +144,13 @@ class Day:
         finally:
             cookie_file.close()
 
-        url = f"https://adventofcode.com/{self.year}/day/{self.day_nr}/input"
-        request = requests.get(url, cookies={'session': session_key})
-        request.close()
+        try:
+            url = f"https://adventofcode.com/{self.year}/day/{self.day_nr}/input"
+            request = requests.get(url, cookies={'session': session_key})
+            request.close()
+        except Exception:
+            print(f"Error: Could not retrieve input data for day {self.day_nr}\r\nMake sure that you have an active internet connection")
+            exit()
 
         # Cache the input for later use
         lines = request.text
