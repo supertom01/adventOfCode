@@ -15,7 +15,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     -tp|--text-path)
-      TEXT_CREATION_PATH="$2"
+      TEST_CREATION_PATH="$2"
       shift
       shift
       ;;
@@ -36,7 +36,7 @@ if ${HELP}; then
   echo "options:"
   echo "-h, --help       Shows this help menu"
   echo "-p, --path       Set the location for the python file to be created (default: ./year/dayX.py)"
-  echo "-tp, --text-path The path to locate the exercise text in (default: ./year/dayX.md)"
+  echo "-tp, --test-path The path to locate the test file in (default: ./test/year/dayX.md)"
   exit 1
 fi
 
@@ -49,8 +49,8 @@ if [ -z ${CREATION_PATH} ]; then
   CREATION_PATH="./${POSITIONAL_ARGS[0]}/day${POSITIONAL_ARGS[1]}.py"
 fi
 
-if [ -z ${TEXT_CREATION_PATH} ]; then
-  TEXT_CREATION_PATH="./${POSITIONAL_ARGS[0]}/day${POSITIONAL_ARGS[1]}.md"
+if [ -z ${TEST_CREATION_PATH} ]; then
+  TEST_CREATION_PATH="./test/${POSITIONAL_ARGS[0]}/${POSITIONAL_ARGS[1]}.txt"
 fi
 
 # Create the Pyton file
@@ -68,4 +68,8 @@ if __name__ == '__main__':
 "> ${CREATION_PATH}
 
 echo "${CREATION_PATH} created"
+
+touch ${TEST_CREATION_PATH}
+echo "${TEST_CREATION_PATH} created"
+
 exit 1
