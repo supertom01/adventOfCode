@@ -7,6 +7,9 @@ class Day4(Day):
         super().__init__(2022, 4, 'Camp Cleanup', expected_a=2, expected_b=4, debug=False)
 
     def parse_sections(self):
+        """
+        Parses the input into a list of elves with sets for each range of sections that they should clean.
+        """
         sections = []
         for pair in self.input:
             ranges = []
@@ -17,6 +20,9 @@ class Day4(Day):
         return sections
 
     def part_a(self) -> int:
+        """
+        Finds all sections that have a complete overlap with the other section in the elf pair.
+        """
         sections = self.parse_sections()
         complete_overlap_count = 0
         for group in sections:
@@ -26,6 +32,9 @@ class Day4(Day):
         return complete_overlap_count
 
     def part_b(self) -> int:
+        """
+        Finds all the sections that have some overlap with the other section in the elf pair.
+        """
         sections = self.parse_sections()
         overlap_count = 0
         for group in sections:
