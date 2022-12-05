@@ -8,7 +8,6 @@ class Day5(Day):
 
     def parse_input(self):
         i = 0
-        stacks = []
         instructions = []
 
         # Parse the stacks
