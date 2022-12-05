@@ -42,5 +42,6 @@ class Day4(Day):
                 overlap_count += 1
         return overlap_count
 
+
 if __name__ == "__main__":
     (Day4()).run()

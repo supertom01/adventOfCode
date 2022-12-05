@@ -36,7 +36,7 @@ if ${HELP}; then
   echo "options:"
   echo "-h, --help       Shows this help menu"
   echo "-p, --path       Set the location for the python file to be created (default: ./year/dayX.py)"
-  echo "-tp, --test-path The path to locate the test file in (default: ./test/year/dayX.md)"
+  echo "-tp, --test-path The path to locate the test file in (default: ./test/year/X.txt)"
   exit 1
 fi
 
