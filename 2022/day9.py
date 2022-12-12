@@ -46,7 +46,7 @@ class Day9(Day):
 
     def part_b(self) -> int:
         head = (0, 0)
-        knots = [(0, 0) for _ in range(9)] # The locations of all the knots at this moment
+        knots = [(0, 0) for _ in range(9)]  # The locations of all the knots at this moment
         tail_locations = set()
         tail_locations.add(knots[8])
 
