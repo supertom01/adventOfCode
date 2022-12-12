@@ -39,15 +39,20 @@ class Day:
             self.input = self._get_test()
         else:
             self.input = self._get_input()
+
         if "input_type" in kwargs.keys():
+            if not kwargs.get("input_type") == "raw":
+                self.input = self.input.splitlines()
             if kwargs.get("input_type") == "int":
                 self.input = list(map(int, self.input))
             elif kwargs.get("input_type") == "float":
                 self.input = list(map(float, self.input))
-            elif kwargs.get("input_type") == "str":
+            elif kwargs.get("input_type") == "str" or kwargs.get("input_type") == "raw":
                 pass
             else:
                 print(f"Warning! Invalid input type provided: {kwargs.get('input_type')}. Defaulting to string.")
+        else:
+            self.input = self.input.splitlines()
 
     def part_a(self) -> int:
         """
@@ -107,18 +112,19 @@ class Day:
     def __str__(self) -> str:
         return f"Day {self.day_nr} \"{self.description}\""
 
-    def _get_test(self) -> list[str]:
+    def _get_test(self) -> str:
         """
         Grabs the test input from a text file.
         :return: A list with values
         """
         test_file = open(f'{dirname(__file__)}/test/{self.year}/{self.day_nr}.txt', 'r')
         try:
-            return [line.replace("\r\n", "").replace("\n", "") for line in test_file.readlines()]
+            return test_file.read()
+            #return [line.replace("\r\n", "").replace("\n", "") for line in test_file.readlines()]
         finally:
             test_file.close()
 
-    def _get_input(self) -> list[str]:
+    def _get_input(self) -> str:
         """
         Grabs the input from the AoC website or from the cache if available.
         :return: The input for the daily puzzle. Every line has its own index in the returned list
@@ -128,7 +134,7 @@ class Day:
         if os.path.exists(cache_path):
             # We already requested the input once, so just use this
             with open(cache_path, 'r') as input_file:
-                return [line.replace("\r\n", "").replace("\n", "") for line in input_file.readlines()]
+                return input_file.read()
         else:
             # Make sure that the directory structure does exist
             if not os.path.exists(f'{dirname(__file__)}/input'):
@@ -156,4 +162,4 @@ class Day:
         lines = request.text
         with open(cache_path, 'x') as input_file:
             input_file.write(lines)
-        return lines.splitlines()
+        return lines
