@@ -42,8 +42,8 @@ class Day11(Day):
     def part_a(self) -> int:
         return self.play_game(20)
 
-    def part_b(self) -> int:
-        return self.play_game(10000)
+    # def part_b(self) -> int:
+    #     return self.play_game(10000)
 
 
 if __name__ == '__main__':
