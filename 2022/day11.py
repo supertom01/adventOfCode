@@ -7,7 +7,7 @@ import parse
 class Day11(Day):
 
     def __init__(self):
-        super().__init__(2022, 11, 'Monkey in the Middle', input_type="raw", expected_a=10605, expected_b=2713310158, debug=True)
+        super().__init__(2022, 11, 'Monkey in the Middle', input_type="raw", expected_a=10605, expected_b=2713310158, debug=False)
 
     def parse(self):
         monkeys = []

@@ -2,3 +2,4 @@
 test
 input
 cookie.txt
+*__pycache__*
