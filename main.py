@@ -3,7 +3,7 @@ import pkgutil
 
 from day_base import Day
 
-YEAR = 2022
+YEAR = 2023
 
 if __name__ == '__main__':
     # Import all the days in the days package
@@ -24,5 +24,5 @@ if __name__ == '__main__':
         try:
             day.run()
         except Exception as e:
-            print(f"Warning exception occurred for {day.__name__}: {e}")
+            print(f"Warning exception occurred for {day.__class__.__name__}: {e}")
             print()
