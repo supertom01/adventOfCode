@@ -1,6 +1,4 @@
 import math
-import re
-from functools import reduce
 
 from day_base import Day
 
