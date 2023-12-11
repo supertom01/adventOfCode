@@ -134,20 +134,17 @@ class Day:
             # We already requested the input once, so just use this
             with open(cache_path, 'r') as input_file:
                 return input_file.read()
-        else:
-            # Make sure that the directory structure does exist
-            if not os.path.exists(f'{dirname(__file__)}/input'):
-                os.mkdir(f'{dirname(__file__)}/input')
-                os.mkdir(f'{dirname(__file__)}/input/{self.year}')
-            elif not os.path.exists(f'{dirname(__file__)}/input/{self.year}'):
-                os.mkdir(f'{dirname(__file__)}/input/{self.year}')
+
+        # Make sure that the directory structure does exist
+        os.makedirs(f'{dirname(__file__)}/input/{self.year}', exist_ok=True)
 
         # Make a request to the AoC website for our puzzle input
-        cookie_file = open(f'{dirname(__file__)}/cookie.txt', 'r')
         try:
-            session_key = cookie_file.read()
-        finally:
-            cookie_file.close()
+            with open(f'{dirname(__file__)}/cookie.txt', 'r') as cookie_file:
+                session_key = cookie_file.read()
+        except OSError:
+            print("Error: Unable to open the cookie.txt file. Make sure that it is placed in the same folder as day_base.py")
+            exit()
 
         try:
             url = f"https://adventofcode.com/{self.year}/day/{self.day_nr}/input"
