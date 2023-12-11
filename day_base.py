@@ -77,18 +77,18 @@ class Day:
         answer_a = None
         answer_b = None
         try:
-            before = time.time()
+            before = time.time_ns()
             answer_a = self.part_a()
-            after = time.time()
-            print(f'\tPart A: {answer_a} (computation time: {(after - before) * 1000:.5f} ms)')
+            after = time.time_ns()
+            print(f'\tPart A: {answer_a} (computation time: {(after - before) / 1e6:.5f} ms)')
         except NotImplementedError as error:
             print("\t", error)
 
         try:
-            before = time.time()
+            before = time.time_ns()
             answer_b = self.part_b()
-            after = time.time()
-            print(f'\tPart B: {answer_b} (computation time: {(after - before) * 1000:.5f} ms)')
+            after = time.time_ns()
+            print(f'\tPart B: {answer_b} (computation time: {(after - before) / 1e6:.5f} ms)')
         except NotImplementedError as error:
             print("\t", error)
         print()
@@ -120,7 +120,6 @@ class Day:
         test_file = open(f'{dirname(__file__)}/test/{self.year}/{self.day_nr}.txt', 'r')
         try:
             return test_file.read()
-            #return [line.replace("\r\n", "").replace("\n", "") for line in test_file.readlines()]
         finally:
             test_file.close()
 
