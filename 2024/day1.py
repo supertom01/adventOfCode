@@ -7,23 +7,11 @@ class Day1(Day):
         super().__init__(2024, 1, 'Historian Hysteria', expected_a=11, expected_b=31, debug=True)
 
     def part_a(self) -> int:
-        left = []
-        right = []
-        for line in self.input:
-            (l, r) = line.split("   ")
-            left.append(int(l))
-            right.append(int(r))
-
+        left, right = list(zip(*[map(int, line.split("   ")) for line in self.input]))
         return sum(abs(l - r) for (l, r) in zip(sorted(left), sorted(right)))
 
     def part_b(self) -> int:
-        left = []
-        right = []
-        for line in self.input:
-            (l, r) = line.split("   ")
-            left.append(int(l))
-            right.append(int(r))
-
+        left, right = list(zip(*[map(int, line.split("   ")) for line in self.input]))
         return sum(right.count(l) * l for l in left)
 
 if __name__ == '__main__':

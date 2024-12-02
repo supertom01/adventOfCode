@@ -8,7 +8,7 @@ def generate_day(day_nr: int, year: int, description=None):
 class Day{day_nr}(Day):
 
     def __init__(self):
-        super().__init__({day_nr}, {year}, '{description if description is not None else 'description'}')
+        super().__init__({year}, {day_nr}, '{description if description is not None else 'description'}')
         
     def part_a(self):
         pass
@@ -32,4 +32,4 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    generate_day(1, 2024)
+    generate_day(2, 2024)
