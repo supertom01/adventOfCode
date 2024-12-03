@@ -1,5 +1,7 @@
 import os.path
 import time
+from typing import Callable
+
 import requests
 from os.path import dirname
 
@@ -11,6 +13,24 @@ for each day and not the management around it.
 Author: Tom Meulenkamp (https://github.com/supertom01)
 Date: 28-11-2022
 """
+
+
+def run_part(part: Callable[[], int], label: str) -> int:
+    """
+    Executes a single part of a day, measures the time it takes to execute.
+
+    :param part: The function that implements the part.
+    :param label: The label that describes the specific part.
+    """
+    answer = None
+    try:
+        before = time.time_ns()
+        answer = part()
+        after = time.time_ns()
+        print(f'\t{label}: {answer} (computation time: {(after - before) / 1e6:.5f} ms)')
+    except NotImplementedError as error:
+        print("\t", error)
+    return answer
 
 
 class Day:
@@ -61,6 +81,13 @@ class Day:
         """
         raise NotImplementedError("Part A has not yet been implemented")
 
+    def part_a_oneliner(self) -> int:
+        """
+        Calculates the solution for this first part of the days puzzle in a single line of code
+        :return: The solution
+        """
+        raise NotImplementedError("There is not a one-liner solution for part A.")
+
     def part_b(self) -> int:
         """
         Calculates the solution for the second part of the days puzzle
@@ -68,34 +95,29 @@ class Day:
         """
         raise NotImplementedError("Part B has not yet been implemented")
 
+    def part_b_oneliner(self) -> int:
+        """
+        Calculates the solution for this second part of the days puzzle in a single line of code
+        :return: The solution
+        """
+        raise NotImplementedError("There is not a one-liner solution for part B.")
+
     def run(self) -> None:
         """
         Executes each part of the day and measures the time it takes to execute it.
         """
         print(self)
 
-        answer_a = None
-        answer_b = None
-        try:
-            before = time.time_ns()
-            answer_a = self.part_a()
-            after = time.time_ns()
-            print(f'\tPart A: {answer_a} (computation time: {(after - before) / 1e6:.5f} ms)')
-        except NotImplementedError as error:
-            print("\t", error)
+        answer_a = run_part(self.part_a, 'Part A')
+        answer_b = run_part(self.part_b , 'Part B')
 
-        try:
-            before = time.time_ns()
-            answer_b = self.part_b()
-            after = time.time_ns()
-            print(f'\tPart B: {answer_b} (computation time: {(after - before) / 1e6:.5f} ms)')
-        except NotImplementedError as error:
-            print("\t", error)
-        print()
+        answer_a_oneliner = run_part(self.part_a_oneliner, 'Part A oneliner')
+        answer_b_oneliner = run_part(self.part_b_oneliner, 'Part B oneliner')
 
         # If we're in debug mode, check if the answers are as expected
         if self.debug:
             self.test(answer_a, answer_b)
+            self.test(answer_a_oneliner, answer_b_oneliner)
 
     def test(self, answer_a, answer_b) -> None:
         """

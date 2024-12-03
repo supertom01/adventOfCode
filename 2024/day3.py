@@ -17,6 +17,9 @@ class Day3(Day):
     def part_a(self):
         return evaluate_memory(''.join(self.input))
 
+    def part_a_oneliner(self) -> int:
+        return sum(int(i1) * int(i2) for (i1, i2) in re.findall(r'mul\((\d+),(\d+)\)', ''.join(self.input)))
+
     def part_b(self) -> int:
         memory = ''.join(self.input)
 
@@ -25,12 +28,16 @@ class Day3(Day):
         cleaned_memory = ''.join(re.split(dont_pattern, memory))
 
         # There might be a trailing don't
-        suffix = re.match(r"don't.*", cleaned_memory)
+        suffix = re.match(r"don't\(\).*", cleaned_memory)
         if suffix:
             cleaned_memory = cleaned_memory.removesuffix(suffix.group())
 
         return evaluate_memory(''.join(cleaned_memory))
 
+    def part_b_oneliner(self) -> int:
+        return evaluate_memory(''.join(re.split(r"don't\(\).*?do\(\)", ''.join(self.input))))
+
 if __name__ == '__main__':
     (Day3()).run()
+
 
