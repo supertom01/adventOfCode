@@ -32,4 +32,4 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    generate_day(2, 2024)
+    generate_day(3, 2024)
