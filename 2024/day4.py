@@ -29,43 +29,24 @@ class Day4(Day):
         row_len = len(matrix)
         col_len = len(matrix[0])
 
-        # Find all MAS
-        found_mas: dict[tuple[int, int], list[tuple[int, int]]] = dict()
-        direction_to_coordinate: dict[tuple[int, int], list[tuple[int, int]]] = dict()
-        for direction in [(-1, 1), (1, -1), (-1, -1), (1, 1)]:
-            direction_to_coordinate[direction] = []
-
+        count = 0
         for i, row in enumerate(matrix):
             for j, char in enumerate(row):
-                if char == 'M':
+
+                # Find all A and make sure the S and the M are aligned properly around it.
+                if char == 'A':
                     directions = [(-1, 1), (1, -1), (-1, -1), (1, 1)]
-                    directions = [(di, dj) for (di, dj) in directions if 0 <= i + di < row_len and 0 <= j + dj < col_len and matrix[i + di][j + dj] == 'A']
-                    directions = [(di, dj) for (di, dj) in directions if 0 <= i + di * 2 < row_len and 0 <= j + dj * 2 < col_len and matrix[i + di * 2][j + dj * 2] == 'S']
-                    if len(directions) > 0:
-                        found_mas[(i, j)] = directions
+                    chars = [matrix[i + di][j + dj] for (di, dj) in directions if
+                             0 <= i + di < row_len and 0 <= j + dj < col_len]
+                    if len(chars) != 4:
+                        continue
 
-                    for direction in directions:
-                        direction_to_coordinate[direction].append((i, j))
-
-        # Find all crossing MAS
-        count = 0
-
-        for ((i, j), directions) in found_mas.items():
-            for direction in directions:
-                if direction == (1, 1):
-                    matching_coordinates = [((i + 2, j), (-1, 1)), ((i, j + 2), (1, -1))]
-                elif direction == (-1, -1):
-                    matching_coordinates = [((i - 2, j), (1, -1)), ((i, j - 2) ,(-1, 1))]
-                elif direction == (1, -1):
-                    matching_coordinates = [((i + 2, j), (-1, -1)), ((i, j - 2), (1, 1))]
-                else:
-                    matching_coordinates = [((i - 2, j), (1, 1)), ((i, j + 2), (-1, -1))]
-
-                for (matching_coordinate, matching_direction) in matching_coordinates:
-                    if matching_coordinate in direction_to_coordinate[matching_direction]:
+                    if 'M' in chars[:2] and 'S' in chars[:2] and 'M' in chars[2:] and 'S' in chars[2:]:
                         count += 1
+        return count
 
-        return count / 2
+    def part_b_oneliner(self) -> int:
+        return sum(1 for i, row in enumerate(self.input) for j, char in enumerate(row) if char == 'A' and (chars := [self.input[i + di][j + dj] for (di, dj) in [(-1, 1), (1, -1), (-1, -1), (1, 1)] if 0 <= i + di < len(self.input) and 0 <= j + dj < len(self.input[0])]) and len(chars) == 4 and ('M' in chars[:2] and 'S' in chars[:2] and 'M' in chars[2:] and 'S' in chars[2:]))
 
 
 if __name__ == '__main__':
