@@ -1,6 +1,7 @@
 import os.path
 import time
 from typing import Callable
+from bs4 import BeautifulSoup
 
 import requests
 from os.path import dirname
@@ -29,7 +30,9 @@ def run_part(part: Callable[[], int], label: str) -> int:
         after = time.time_ns()
         print(f'\t{label}: {answer} (computation time: {(after - before) / 1e6:.5f} ms)')
     except NotImplementedError as error:
-        print("\t", error)
+        if "one-liner" not in str(error):
+            print("\t", error)
+
     return answer
 
 
@@ -139,11 +142,46 @@ class Day:
         Grabs the test input from a text file.
         :return: A list with values
         """
-        test_file = open(f'{dirname(__file__)}/test/{self.year}/{self.day_nr}.txt', 'r')
+        # Check the test cache for input and set up the needed directory structure if this does not exist yet.
+        cache_path = f'{dirname(__file__)}/test/{self.year}/{self.day_nr}.txt'
+        if os.path.exists(cache_path):
+            # We already requested this data before, so just use this
+            with open(cache_path, 'r') as test_file:
+                return test_file.read()
+
+        # Make sure that the directory structure exists
+        os.makedirs(f'{dirname(__file__)}/test/{self.year}', exist_ok=True)
+
+        # Load the problem webpage
         try:
-            return test_file.read()
-        finally:
-            test_file.close()
+            url = f"https://adventofcode.com/{self.year}/day/{self.day_nr}"
+            request = requests.get(url)
+            request.close()
+        except Exception:
+            print(f"Error: Could not retrieve test data for day {self.day_nr}\r\nMake sure that you have an active internet connection")
+            exit()
+
+        # Parse the HTML page
+        test_input = None
+        soup = BeautifulSoup(request.text, features="html.parser")
+        for p in soup.body.find_all('p'):
+            if "for example" in p.text.lower():
+                code = p.find_next_sibling('pre')
+
+                if code is not None:
+                    test_input = code.text
+                    break
+
+        # Check whether we found an input
+        if test_input is None:
+            print(f"Warning! Could not automatically extract test string for day {self.day_nr}! Please copy it manually")
+            exit()
+
+        # Save the input
+        with open(cache_path, 'x') as input_file:
+            input_file.write(test_input)
+        return test_input
+
 
     def _get_input(self) -> str:
         """

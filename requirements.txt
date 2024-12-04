@@ -1,3 +1,4 @@
 requests
 numpy
 parse
+beautifulsoup4

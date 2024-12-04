@@ -25,11 +25,9 @@ if __name__ == '__main__':
 
     with open(f"{year}/day{day_nr}.py", "x") as python_file:
         python_file.write(text)
-    with open(f"test/{year}/{day_nr}.txt", "x") as _:
-        pass
 
-    print("Successfully created day.py and test input files.")
+    print(f"Successfully created day{day_nr}.py")
 
 
 if __name__ == '__main__':
-    generate_day(3, 2024)
+    generate_day(4, 2024)
