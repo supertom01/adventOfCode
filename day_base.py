@@ -165,9 +165,9 @@ class Day:
         test_input = None
         soup = BeautifulSoup(request.text, features="html.parser")
         for p in soup.body.find_all('p'):
+            # Find the text 'for example', the tag that follows after it is always an example test input.
             if "for example" in p.text.lower():
                 code = p.find_next_sibling('pre')
-
                 if code is not None:
                     test_input = code.text
                     break
