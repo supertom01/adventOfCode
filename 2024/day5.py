@@ -3,8 +3,7 @@ import functools
 from day_base import Day
 
 
-def fix_updates(updates, rules):
-    comparator = functools.cmp_to_key(lambda a, b: -1 if (a, b) in rules else (1 if (b, a) in rules else 0))
+def fix_updates(updates, comparator):
     correct_updates = []
     corrected_updates = []
     for update in updates:
@@ -34,13 +33,15 @@ class Day5(Day):
 
     def part_a(self):
         updates, rules = self.parse_data()
-        correct_updates, _ = fix_updates(updates, rules)
+        comparator = functools.cmp_to_key(lambda a, b: -1 if (a, b) in rules else (1 if (b, a) in rules else 0))
+        correct_updates, _ = fix_updates(updates, comparator)
 
         return sum(x[int(len(x) / 2)] for x in correct_updates)
 
     def part_b(self) -> int:
         updates, rules = self.parse_data()
-        _, corrected_updates = fix_updates(updates, rules)
+        comparator = functools.cmp_to_key(lambda a, b: -1 if (a, b) in rules else (1 if (b, a) in rules else 0))
+        _, corrected_updates = fix_updates(updates, comparator)
         return sum(x[int(len(x) / 2)] for x in corrected_updates)
 
 if __name__ == '__main__':
